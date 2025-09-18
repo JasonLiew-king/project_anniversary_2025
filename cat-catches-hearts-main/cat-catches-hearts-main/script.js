@@ -1,3 +1,4 @@
+// --- EXISTING VARIABLES ---
 const cat = document.querySelector('.cat');
 const heartSegments = document.querySelectorAll('.heart-segment');
 const endMessage = document.getElementById("endMessage");
@@ -6,18 +7,19 @@ let filledHearts = 0;
 let isFacingRight = true;
 let heartInterval;
 
+// --- HELPER FUNCTIONS ---
 function getCatBounds() {
     return cat.getBoundingClientRect();
 }
 
-document.addEventListener('keydown', (event) => {
-    if (event.key === "ArrowLeft" && catPosition > 5) {
+function moveCat(direction) {
+    if (direction === 'left' && catPosition > 5) {
         catPosition -= 5;
         if (isFacingRight) {
             cat.style.transform = "translateX(-50%) scaleX(-1)";
             isFacingRight = false;
         }
-    } else if (event.key === "ArrowRight" && catPosition < 95) {
+    } else if (direction === 'right' && catPosition < 95) {
         catPosition += 5;
         if (!isFacingRight) {
             cat.style.transform = "translateX(-50%) scaleX(1)";
@@ -25,8 +27,38 @@ document.addEventListener('keydown', (event) => {
         }
     }
     cat.style.left = catPosition + "%";
+}
+
+// --- KEYBOARD CONTROL ---
+document.addEventListener('keydown', (event) => {
+    if (event.key === "ArrowLeft") moveCat('left');
+    if (event.key === "ArrowRight") moveCat('right');
 });
 
+// --- MOBILE BUTTON CONTROL ---
+function setupControls() {
+    const controlsDiv = document.createElement('div');
+    controlsDiv.classList.add('controls');
+
+    const leftBtn = document.createElement('button');
+    leftBtn.textContent = '⬅'; // left arrow
+    leftBtn.addEventListener('touchstart', () => moveCat('left'));
+    leftBtn.addEventListener('mousedown', () => moveCat('left'));
+
+    const rightBtn = document.createElement('button');
+    rightBtn.textContent = '➡'; // right arrow
+    rightBtn.addEventListener('touchstart', () => moveCat('right'));
+    rightBtn.addEventListener('mousedown', () => moveCat('right'));
+
+    controlsDiv.appendChild(leftBtn);
+    controlsDiv.appendChild(rightBtn);
+    document.body.appendChild(controlsDiv);
+}
+
+// Call the setup function
+setupControls();
+
+// --- HEART LOGIC (UNCHANGED) ---
 function createHeart() {
     if (filledHearts >= 9) return;
 
@@ -96,4 +128,5 @@ function showEndMessage() {
     endMessage.classList.add("visible");
 }
 
+// Start the heart rain
 heartInterval = setInterval(createHeart, 2000);
