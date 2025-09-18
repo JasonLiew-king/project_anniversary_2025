@@ -28,4 +28,3 @@ function handleNoClick() {
 function handleYesClick() {
     window.location.href = "https://jasonliew-king.github.io/project_anniversary_2025/My-valentine--main/My-valentine--main/yes_page.html";
 }
-
