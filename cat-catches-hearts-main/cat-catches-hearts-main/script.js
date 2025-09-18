@@ -43,11 +43,13 @@ function setupControls() {
     const leftBtn = document.createElement('button');
     leftBtn.textContent = '⬅'; // left arrow
     leftBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveCat('left'); });
+    leftBtn.addEventListener('mousedown', () => moveCat('left'));
     leftBtn.addEventListener('click', () => moveCat('left'));
 
     const rightBtn = document.createElement('button');
     rightBtn.textContent = '➡'; // right arrow
     rightBtn.addEventListener('touchstart', (e) => { e.preventDefault(); moveCat('right'); });
+    rightBtn.addEventListener('mousedown', () => moveCat('right'));
     rightBtn.addEventListener('click', () => moveCat('right'));
 
     controlsDiv.appendChild(leftBtn);
